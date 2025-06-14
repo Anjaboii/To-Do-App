@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   @override
-  State<ToDoScreen> createState() => ToDoScreenState();
+
 
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,11 +23,11 @@ class MyApp extends StatelessWidget {
 
 class ToDoScreen extends StatefulWidget {
   const ToDoScreen({super.key});
-}
+
 
 @override
 State<ToDoScreen> createState() => ToDoScreenState();
-
+}
 class ToDoScreenState extends State<ToDoScreen>{
   List<String> tasks= [];
 
@@ -52,26 +52,47 @@ void addTask() {
 
   ),
     body: Padding(
+    padding: const EdgeInsets.all(16.0),
     child: Column(
-  children: [
-  Expanded(
-  child: TextField(
-  controller: controller,
+    children: [
+    Row(
+    children: [
+    Expanded(
+    child: TextField(
+    controller: controller,
+    decoration: const InputDecoration(
+    hintText: "Enter your task",
+    border: OutlineInputBorder(),
 
-  ),
-  ),
-
-
-  Expanded(
-  child: ListView.builder(
-    itemCount: tasks.length,
-    itemBuilder: (context, index) {
-    return Card(
-    child: ListTile(
-    title: Text(tasks[index]),
     ),
-    );
-    },
+    ),
     ),
 
+
+    const SizedBox(width: 10),
+    ElevatedButton(
+      onPressed: addTask,
+      child: const Text("Add"),
+    ),
+    ],
+  ),
+      const SizedBox(height: 20),
+      Expanded(
+        child: ListView.builder(
+          itemCount: tasks.length,
+          itemBuilder: (context, index) {
+            return Card(
+              child: ListTile(
+                title: Text(tasks[index]),
+              ),
+            );
+          },
+        ),
+      ),
+    ],
+    ),
+    ),
+  );
+  }
+}
 
