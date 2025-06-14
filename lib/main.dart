@@ -11,25 +11,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
         backgroundColor: Colors.blue[100],
 
+        //AppBar
+        appBar: AppBar(
+          title: Text("To-Do-List"),
+          backgroundColor: Colors.blue,
+          elevation: 0,
+          centerTitle: true,
 
-          appBar: AppBar(
-            title: Text("To-Do-List"),
-            backgroundColor: Colors.blue,
-            elevation: 0,
-            centerTitle: true,
-          ),
 
+          // Body
 
-          body: ListView(
-            children: [
-              ToDoList(),
-            ],
-          ),
         ),
+      ),
     );
   }
 
+}
