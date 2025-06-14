@@ -9,6 +9,8 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   @override
+  State<ToDoScreen> createState() => ToDoScreenState();
+
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -19,8 +21,9 @@ class MyApp extends StatelessWidget {
 
 }
 
-class ToDoScreen extends StatefulWidget{
+class ToDoScreen extends StatefulWidget {
   const ToDoScreen({super.key});
+}
 
 @override
 State<ToDoScreen> createState() => ToDoScreenState();
@@ -32,7 +35,7 @@ TextEditingController controller = TextEditingController();
 
 void addTask() {
 
-  String newTask= controller.text.trim(),
+  String newTask= controller.text.trim();
   if(newTask.isNotEmpty) {
     setState (() {
       tasks.add(newTask);
@@ -42,19 +45,33 @@ void addTask() {
   }
   @override
   Widget build(BuildContext context) {
-  return scaffold(
+  return Scaffold(
 
   appBar: AppBar(
-  title= Text ("Test"),
+    title: const Text("To-Do List"),
+
   ),
-  body{
-  child: Column(
+    body: Padding(
+    child: Column(
   children: [
-  }
-  )
-  }
+  Expanded(
+  child: TextField(
+  controller: controller,
+
+  ),
+  ),
 
 
-  }
-}
+  Expanded(
+  child: ListView.builder(
+    itemCount: tasks.length,
+    itemBuilder: (context, index) {
+    return Card(
+    child: ListTile(
+    title: Text(tasks[index]),
+    ),
+    );
+    },
+    ),
+
 
