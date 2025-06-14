@@ -12,22 +12,49 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: Colors.blue[100],
+        home: ToDoScreen(),
 
-        //AppBar
-        appBar: AppBar(
-          title: Text("To-Do-List"),
-          backgroundColor: Colors.blue,
-          elevation: 0,
-          centerTitle: true,
-
-
-          // Body
-
-        ),
-      ),
     );
   }
 
 }
+
+class ToDoScreen extends StatefulWidget{
+  const ToDoScreen({super.key});
+
+@override
+State<ToDoScreen> createState() => ToDoScreenState();
+
+class ToDoScreenState extends State<ToDoScreen>{
+  List<String> tasks= [];
+
+TextEditingController controller = TextEditingController();
+
+void addTask() {
+
+  String newTask= controller.text.trim(),
+  if(newTask.isNotEmpty) {
+    setState (() {
+      tasks.add(newTask);
+      controller.clear();
+  });
+  }
+  }
+  @override
+  Widget build(BuildContext context) {
+  return scaffold(
+
+  appBar: AppBar(
+  title= Text ("Test"),
+  ),
+  body{
+  child: Column(
+  children: [
+  }
+  )
+  }
+
+
+  }
+}
+
