@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -9,8 +9,6 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   @override
-
-
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -29,27 +27,52 @@ class ToDoScreen extends StatefulWidget {
 State<ToDoScreen> createState() => ToDoScreenState();
 }
 class ToDoScreenState extends State<ToDoScreen>{
-  List<String> tasks= [];
 
+List<Map<String,dynamic>> tasks= [];
 TextEditingController controller = TextEditingController();
+
+@override
+void initState(){
+  super.initState();
+  loadTasks();
+
+}
+
 
 void addTask() {
 
   String newTask= controller.text.trim();
   if(newTask.isNotEmpty) {
     setState (() {
-      tasks.add(newTask);
+      tasks.add({"title": newTask, "isDone": false});
       controller.clear();
   });
+  saveTasks();
   }
   }
+
+void toggleDone(int index) {
+  setState(() {
+    tasks[index]['isDone'] = !tasks[index]['isDone'];
+  });
+  saveTasks();
+}
+
+// 🟩 Delete task
+void deleteTask(int index) {
+  setState(() {
+    tasks.removeAt(index);
+  });
+  saveTasks();
+}
   @override
   Widget build(BuildContext context) {
   return Scaffold(
 
   appBar: AppBar(
     title: const Text("To-Do List"),
-
+    centerTitle:true,
+    backgroundColor:Colors.blue,
   ),
     body: Padding(
     padding: const EdgeInsets.all(16.0),
@@ -84,7 +107,30 @@ void addTask() {
             return Card(
               child: ListTile(
                 title: Text(tasks[index]),
+                  return Card(
+              child: ListTile(
+              leading: Checkbox(
+                  value: task['isDone'],
+                  onChanged: (_) => toggleDone(index),
               ),
+
+
+              title: Text(
+              task['title'], // ✅ Corrected map access
+            style: TextStyle(
+            decoration: task['isDone']
+            ? TextDecoration.lineThrough
+                : TextDecoration.none,
+
+
+            );
+
+            );
+            trailing: IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () => deleteTask(index),
+            ),
+            ),
             );
           },
         ),
@@ -95,4 +141,5 @@ void addTask() {
   );
   }
 }
+
 
