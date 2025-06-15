@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'dart:convert';
 
 void main() {
   runApp(const MyApp());
@@ -26,7 +26,7 @@ class ToDoScreen extends StatefulWidget {
 }
 
 class ToDoScreenState extends State<ToDoScreen> {
-  List<String> tasks = [];
+  List<Map<String, dynamic>> tasks = [];
   TextEditingController controller = TextEditingController();
 
   @override
@@ -39,11 +39,18 @@ class ToDoScreenState extends State<ToDoScreen> {
     String newTask = controller.text.trim();
     if (newTask.isNotEmpty) {
       setState(() {
-        tasks.add(newTask);
+        tasks.add({"title": newTask, "isDone": false});
         controller.clear();
       });
       saveTasks();
     }
+  }
+
+  void toggleDone(int index) {
+    setState(() {
+      tasks[index]['isDone'] = !tasks[index]['isDone'];
+    });
+    saveTasks();
   }
 
   void deleteTask(int index) {
@@ -55,14 +62,18 @@ class ToDoScreenState extends State<ToDoScreen> {
 
   Future<void> saveTasks() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList('tasks', tasks);
+    final encodedData = jsonEncode(tasks);
+    await prefs.setString('tasks', encodedData);
   }
 
   Future<void> loadTasks() async {
     final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      tasks = prefs.getStringList('tasks') ?? [];
-    });
+    final encodedData = prefs.getString('tasks');
+    if (encodedData != null) {
+      setState(() {
+        tasks = List<Map<String, dynamic>>.from(jsonDecode(encodedData));
+      });
+    }
   }
 
   @override
@@ -100,9 +111,21 @@ class ToDoScreenState extends State<ToDoScreen> {
               child: ListView.builder(
                 itemCount: tasks.length,
                 itemBuilder: (context, index) {
+                  final task = tasks[index];
                   return Card(
                     child: ListTile(
-                      title: Text(tasks[index]),
+                      leading: Checkbox(
+                        value: task['isDone'],
+                        onChanged: (_) => toggleDone(index),
+                      ),
+                      title: Text(
+                        task['title'],
+                        style: TextStyle(
+                          decoration: task['isDone']
+                              ? TextDecoration.lineThrough
+                              : TextDecoration.none,
+                        ),
+                      ),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete),
                         onPressed: () => deleteTask(index),
