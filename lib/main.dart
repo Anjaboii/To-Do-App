@@ -95,7 +95,23 @@ class ToDoScreenState extends State<ToDoScreen> {
                 ),
               ],
             ),
-
+            const SizedBox(height: 20),
+            Expanded(
+              child: ListView.builder(
+                itemCount: tasks.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: ListTile(
+                      title: Text(tasks[index]),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () => deleteTask(index),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
