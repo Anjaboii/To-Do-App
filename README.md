@@ -1,16 +1,1 @@
-# to_do_app
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+A simple and intuitive Android To-Do list application developed using Flutter and the Dart programming language. The app allows users to add, delete, and mark tasks as complete, offering a smooth and responsive experience. It focuses on essential task management features with a clean, mobile-friendly UI.
